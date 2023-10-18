@@ -5,6 +5,7 @@ import Home from './pages/home/Home';
 import Navigation from './components/navigation/Navigation';
 import NationalParks from './components/national_parks/NationalParks';
 import Mountains from './components/mountains/Mountains';
+import Footer from './components/footer/Footer';
 
 function App() {
   return (
@@ -15,7 +16,7 @@ function App() {
         <Route path="/nationalparks" element={<NationalParks />} />
         <Route path="/Mountains" element={<Mountains />} />
       </Routes>
-     
+     <Footer/>
     </div>
   );
 }

@@ -11,3 +11,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.carousel-item img {
+  object-fit: cover;
+  object-position: center;
+  height: 65vh;
+  overflow: hidden;
+}
