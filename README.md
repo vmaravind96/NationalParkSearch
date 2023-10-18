@@ -1,70 +1,75 @@
-# Getting Started with Create React App
+# Capstone Project: Enjoy the Outdoors
+In this project, you will build an application that helps a user find things to do to enjoy the great outdoors. Our app specializes in finding national parks to enjoy and mountains to climb. You will use what you know about React to complete this project. You will also need to flex your research skills to solve any blockers you run into.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Basic Requirements
+The website should include the following in order to be considered complete:
 
-## Available Scripts
+- **A National Parks Search Page** - The National Parks search page provides a user interface that allows the user to search for the park that is just right for them.  Data comes from a file on the server named `nationalparks.json` located in `public/data`.
 
-In the project directory, you can run:
+- **Mountains Information Page** - The mountains information page provides a user interface that allows the user to explore the details of 48 different mountains. Data comes from a file on the server named `mountains.json` located in `public/data`.
 
-### `npm start`
+> **NOTE** There are ample opportunities in this project to keep you busy and stretch your skills.  Just make sure the basic requirements above are met before you decide to tackle any optional features!!
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Implementation Details
+Below you will find implementation requirements and details about the **National Parks search page**, **Mountains Information page**, **stretch goals**, and general implementation hints.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### National Parks Search Page 
+This page will allow the user to search for national parks that they might be interested in.  The parks are provided to you in `nationalparks.json`. Spend some time examining this file.
 
-### `npm test`
+Ultimately, the user would like to have two ways to search for a national park:
+ - **By location** 
+ - **By park type**
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+**Search by Location** - This option allows users to select the state/territory from a [dropdown](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select). Values for the state/territory dropdown will be provided for you in `locations.json`.  **You will know a park matches the location by comparing it to the park's State" property**. 
 
-### `npm run build`
+> **NOTE:** Search by Location is the most important search option and should be the highest priority to complete.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+**Search by Park Type** - This option allows users to select a description from a [dropdown](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select). Values for the park type dropdown will be provided for you in `parktypes.json`.  **You will know a park matches the description by checking to see if the park's "LocationName" property ***includes*** the description**. 
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+One of the challenges will be how the user is presented with two search options populated with the appropriate values. Do you use [radio buttons](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio) to select the search type?  Do you use a [dropdown](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select) with the search types as [options](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/option)?
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### Nationa Parks Search Page Stretch Goals
+Challenge yourself with some of the stretch goals below. **These stretch goals should be treated as the lowest priority tasks**
 
-### `npm run eject`
+- Provide a View All National Parks option.
+- Some, but not all National Parks, contain a **"Visit"** property that contains a URL to a page about the park. You can display the URL in a hyperlink (ex: [<a>](https://mdn.io/a) tag) along with park details so the user can click on it and visit the park's page from your list.  Make sure to open the visited page in a different tab/window!
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+#### IMPLEMENTATION HINTS
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Get the two search options to load their respective options before getting the actual search working. Options include:
+- **Suggestion:** Get the "Search by Location" feature working first.
+- When you are working on the "Search by Park Type", you need to make sure the two strings have the same casing when you search.  The easiest way to do this is to use the `String` objects [`.toLowerCase()`](https://mdn.io/toLowerCase)  (or [`.toUpperCase()`](https://mdn.io/toUpperCase) ) to make the strings the same case.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Mountains Information Page
+This page will provide a drop-down list of the 48 mountains listed in `mountains.json.` Make sure to spend time examining this file.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+When the user selects a mountain, your page will display information about that mountain, including:
 
-## Learn More
+- Mountain Name
+- Description
+- Elevation
+- Any other information you find interesting about the Mountain. 
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+> **NOTE:** This page will NOT allow the user to search mountains using any type of filter.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+#### Mountain Information Page Stretch Goals
+Challenge yourself with some of the stretch goals below. **These stretch goals should be treated as the lowest priority tasks**
 
-### Code Splitting
+- Display an image of the mountain along with the mountain information. 
+- Impress the user by displaying the sunrise and sunset time "today" for any mountain along with the other mountain data.
+  ```js
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+  //function that can "fetch" the sunset/sunrise times
+  async function getSunsetForMountain(lat, lng){
+      let response = await fetch(`http://api.sunrise-sunset.org/json?lat=${lat}&lng=${lng}&date=today`)
+      let data = await response.json()
+      return data
+  }
 
-### Analyzing the Bundle Size
+  //Using the function to fetch the sunset/sunrise times for a specific mountain 
+  getSunsetForMountain("44.320686", "-71.291742").then(sunsetData => {
+      console.log(sunsetData.results)
+  });
+  ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+> NOTE(S): the lat and lng values are included in the mountain data. The times returned are in UTC are not adjusted for local summer variations. Label the output as UTC time when you display them or try to convert them to local time for the user. 
