@@ -3,6 +3,7 @@ import { useParks } from "../../hooks/useParks";
 import { Dropdown, Container, Button, Table } from "react-bootstrap";
 
 function NationalParks() {
+  const ALL = "All";
   const LOCATION = "Location";
   const PARK_TYPE = "Park Type";
   const SELECT_LOCATION_STR = "Select location";
@@ -43,15 +44,18 @@ function NationalParks() {
       (selectedOption === LOCATION &&
         selectedLocation !== SELECT_LOCATION_STR) ||
       (selectedOption === PARK_TYPE &&
-        selectedParkType !== SELECT_PARK_TYPE_STR)
+        selectedParkType !== SELECT_PARK_TYPE_STR) ||
+      selectedOption === ALL
     );
   };
 
   const handleSearch = () => {
     if (selectedOption === LOCATION) {
       handleLocationSearch();
-    } else {
+    } else if (selectedOption === PARK_TYPE) {
       handleParkTypeSearch();
+    } else {
+      handleAllSearch();
     }
   };
 
@@ -77,12 +81,17 @@ function NationalParks() {
     setDisplayTable(true);
   };
 
+  const handleAllSearch = () => {
+    setParksToDisplay(nationalParksCache);
+    setDisplayTable(true);
+  };
+
   return (
     <div className="NationalParks bg-light">
       <h1>National Parks Search</h1>
       <Container style={containerStyle}>
         <div>
-          <strong>Search by:</strong>
+          <strong>Search Category:</strong>
         </div>
         <Dropdown onSelect={handleSearchBy}>
           <Dropdown.Toggle variant="outline-primary" id="dropdown-search">
@@ -90,8 +99,9 @@ function NationalParks() {
           </Dropdown.Toggle>
 
           <Dropdown.Menu>
-            <Dropdown.Item eventKey="Location">Location</Dropdown.Item>
-            <Dropdown.Item eventKey="Park Type">Park Type</Dropdown.Item>
+            <Dropdown.Item eventKey={LOCATION}>{LOCATION}</Dropdown.Item>
+            <Dropdown.Item eventKey={PARK_TYPE}>{PARK_TYPE}</Dropdown.Item>
+            <Dropdown.Item eventKey={ALL}>{ALL}</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </Container>
@@ -185,7 +195,7 @@ function NationalParks() {
                     {park.Fax || "N/A"}
                     <br />
                   </td>
-                  <td>{park.Visit || "N/A"}</td>
+                  <td>{<a href={park.Visit}>{park.Visit}</a> || "N/A"}</td>
                 </tr>
               ))}
             </tbody>
