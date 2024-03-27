@@ -7,16 +7,16 @@ import NationalParks from './pages/national_parks/NationalParks';
 import Mountains from './pages/mountains/Mountains';
 import Footer from './components/footer/Footer';
 
-function App() {
+function App(props) {
   return (
     <div className="App">
       <Navigation/>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/nationalparks" element={<NationalParks />} />
-        <Route path="/Mountains" element={<Mountains />} />
+        <Route path="/mountains" element={<Mountains />} />
       </Routes>
-     <Footer/>
+      <Footer/>
     </div>
   );
 }
