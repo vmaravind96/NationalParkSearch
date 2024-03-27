@@ -7,6 +7,11 @@ function NationalParks() {
   const PARK_TYPE = "Park Type";
   const SELECT_LOCATION_STR = "Select location";
   const SELECT_PARK_TYPE_STR = "Select park type";
+  const containerStyle = {
+    alignItems: "center",
+    display: "flex",
+    flexDirection: "column",
+  };
 
   const [nationalParksCache, locations, types] = useParks();
   const [selectedOption, setSelectedOption] = useState("Select a criteria");
@@ -52,7 +57,10 @@ function NationalParks() {
 
   const handleLocationSearch = () => {
     const parksFiltered = nationalParksCache.filter(
-      (park) => park.State === selectedLocation
+      (park) => park.State.toLowerCase() === selectedLocation.toLowerCase()
+    );
+    console.log(
+      `Filtered park for ${selectedLocation} is ${parksFiltered.length}`
     );
     setParksToDisplay(parksFiltered);
     setDisplayTable(true);
@@ -60,7 +68,10 @@ function NationalParks() {
 
   const handleParkTypeSearch = () => {
     const parksFiltered = nationalParksCache.filter((park) =>
-      park.LocationName.includes(selectedParkType)
+      park.LocationName.toLowerCase().includes(selectedParkType.toLowerCase())
+    );
+    console.log(
+      `Filtered park for ${selectedParkType} is ${parksFiltered.length}`
     );
     setParksToDisplay(parksFiltered);
     setDisplayTable(true);
@@ -69,7 +80,7 @@ function NationalParks() {
   return (
     <div className="NationalParks bg-light">
       <h1>National Parks Search</h1>
-      <Container>
+      <Container style={containerStyle}>
         <div>
           <strong>Search by:</strong>
         </div>
@@ -86,7 +97,7 @@ function NationalParks() {
       </Container>
 
       {selectedOption === LOCATION && (
-        <Container>
+        <Container style={containerStyle}>
           <div>
             <strong>Select a location:</strong>
           </div>
@@ -107,7 +118,7 @@ function NationalParks() {
       )}
 
       {selectedOption === PARK_TYPE && (
-        <Container>
+        <Container style={containerStyle}>
           <div>
             <strong>Select a park type:</strong>
           </div>
@@ -128,7 +139,7 @@ function NationalParks() {
       )}
       <br />
       {canDisplaySubmit() && (
-        <Container>
+        <Container style={containerStyle}>
           <Button variant="primary" size="md" onClick={handleSearch}>
             Search
           </Button>
@@ -136,8 +147,8 @@ function NationalParks() {
       )}
       <br />
       {displayTable && (
-        <Container>
-          <Table striped bordered hover>
+        <Container style={containerStyle}>
+          <Table striped bordered hover variant="secondary">
             <thead>
               <tr>
                 <th>S.No</th>
@@ -152,18 +163,27 @@ function NationalParks() {
             <tbody>
               {parksToDisplay.map((park, idx) => (
                 <tr key={idx}>
-                  <td>{idx+1}</td>
+                  <td>{idx + 1}</td>
                   <td>{park.LocationID}</td>
                   <td>{park.LocationName}</td>
-                  <td>{park.Address===0 ? "N/A": park.Address}</td>
-                  <td> 
-                    <span style={{ fontWeight: 'bold' }}>City:</span>{park.City}<br/>
-                    <span style={{ fontWeight: 'bold' }}>State:</span>{park.State}<br/>
-                    <span style={{ fontWeight: 'bold' }}>Zip:</span>{park.ZipCode}
+                  <td>{park.Address === 0 ? "N/A" : park.Address}</td>
+                  <td>
+                    <span style={{ fontWeight: "bold" }}>City:</span>
+                    {park.City}
+                    <br />
+                    <span style={{ fontWeight: "bold" }}>State:</span>
+                    {park.State}
+                    <br />
+                    <span style={{ fontWeight: "bold" }}>Zip:</span>
+                    {park.ZipCode}
                   </td>
-                  <td> 
-                    <span style={{ fontWeight: 'bold' }}>Phone:</span>{park.Phone || "N/A"}<br/>
-                    <span style={{ fontWeight: 'bold' }}>Fax:</span>{park.Fax || "N/A"}<br/>
+                  <td>
+                    <span style={{ fontWeight: "bold" }}>Phone:</span>
+                    {park.Phone || "N/A"}
+                    <br />
+                    <span style={{ fontWeight: "bold" }}>Fax:</span>
+                    {park.Fax || "N/A"}
+                    <br />
                   </td>
                   <td>{park.Visit || "N/A"}</td>
                 </tr>
